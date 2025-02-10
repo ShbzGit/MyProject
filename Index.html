@@ -49,7 +49,7 @@
       color: #333;
     }
 
-    input[type="text"] {
+    select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -91,12 +91,26 @@
     <form id="deliveryForm">
       <div class="form-group">
         <label for="pickupLocation">Pickup Location:</label>
-        <input type="text" id="pickupLocation" name="pickupLocation" placeholder="Enter pickup location" required>
+        <select id="pickupLocation" name="pickupLocation" required>
+          <option value="">Select Pickup Location</option>
+          <option value="Koramangala">Koramangala</option>
+          <option value="Whitefield">Whitefield</option>
+          <option value="Indiranagar">Indiranagar</option>
+          <option value="Electronic City">Electronic City</option>
+          <option value="Jayanagar">Jayanagar</option>
+        </select>
       </div>
       
       <div class="form-group">
         <label for="dropLocation">Drop Location:</label>
-        <input type="text" id="dropLocation" name="dropLocation" placeholder="Enter drop location" required>
+        <select id="dropLocation" name="dropLocation" required>
+          <option value="">Select Drop Location</option>
+          <option value="Koramangala">Koramangala</option>
+          <option value="Whitefield">Whitefield</option>
+          <option value="Indiranagar">Indiranagar</option>
+          <option value="Electronic City">Electronic City</option>
+          <option value="Jayanagar">Jayanagar</option>
+        </select>
       </div>
       
       <button type="submit" class="submit-btn">Submit Order</button>
@@ -118,16 +132,12 @@
 
       // Validate inputs
       if (!pickupLocation || !dropLocation) {
-        alert('Please fill in both pickup and drop locations.');
+        alert('Please select both pickup and drop locations.');
         return;
       }
 
       // Show confirmation message
       document.getElementById('confirmationMessage').classList.remove('hidden');
-
-      // Clear form fields
-      document.getElementById('pickupLocation').value = '';
-      document.getElementById('dropLocation').value = '';
 
       // Hide confirmation message after 5 seconds
       setTimeout(() => {
