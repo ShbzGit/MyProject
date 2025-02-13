@@ -7,22 +7,22 @@
   <style>
     /* General Styles */
     body {
-      font-family: Arial, sans-serif;
-      background: url('https://www.dropbox.com/scl/fi/lr9e2ni587i6xgvgm3lnn/AdobeStock_292203735_Preview.jpeg?rlkey=ymsd5ls3bl8mp6da96aipxcv4&st=dh0ue7gi&dl=0') no-repeat center center fixed;
-      background-size: cover;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      color: #fff;
+      color: #333;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
     }
 
     .container {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       color: #333;
-      padding: 20px;
+      padding: 30px;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       max-width: 400px;
@@ -33,13 +33,14 @@
     h1 {
       color: #333;
       margin-bottom: 10px;
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: bold;
     }
 
     p {
       color: #666;
       margin-bottom: 20px;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     /* Form Styles */
@@ -55,6 +56,8 @@
       font-weight: bold;
     }
 
+    input[type="text"],
+    input[type="password"],
     select {
       width: 100%;
       padding: 10px;
@@ -62,22 +65,69 @@
       border-radius: 5px;
       font-size: 16px;
       background-color: #f9f9f9;
-      cursor: pointer;
     }
 
     .submit-btn {
-      background-color: #28a745;
+      background-color: #ff6f61;
       color: #fff;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 20px;
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      width: 100%;
     }
 
     .submit-btn:hover {
-      background-color: #218838;
+      background-color: #ff4a3d;
+    }
+
+    /* Food Selection Page */
+    .food-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .food-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 5px;
+      object-fit: cover; /* Ensures images are not compressed */
+    }
+
+    .food-item span {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0 10px;
+    }
+
+    .food-item button {
+      background-color: #ff6f61;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .food-item button:hover {
+      background-color: #ff4a3d;
+    }
+
+    /* Amount Display */
+    #totalAmount {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
     }
 
     /* Confirmation Message */
@@ -90,13 +140,80 @@
       color: #28a745;
       font-weight: bold;
     }
+
+    /* Delivery Page Styles */
+    #deliveryPage {
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    #deliveryPage h1 {
+      color: #333;
+    }
+
+    #deliveryPage p {
+      color: #666;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- Login Page -->
+  <div id="loginPage" class="container">
+    <h1>Login</h1>
+    <p>Welcome back! Please login to continue.</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="submit-btn">Login</button>
+    </form>
+  </div>
+
+  <!-- Food Selection Page -->
+  <div id="foodSelectionPage" class="container hidden">
+    <h1>Select Your Food</h1>
+    <div id="foodItems">
+      <div class="food-item">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Burger">
+        <span>Burger - ₹150</span>
+        <div>
+          <button onclick="adjustQuantity('burger', -1)">-</button>
+          <span id="burgerQuantity">0</span>
+          <button onclick="adjustQuantity('burger', 1)">+</button>
+        </div>
+      </div>
+      <div class="food-item">
+        <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza">
+        <span>Pizza - ₹200</span>
+        <div>
+          <button onclick="adjustQuantity('pizza', -1)">-</button>
+          <span id="pizzaQuantity">0</span>
+          <button onclick="adjustQuantity('pizza', 1)">+</button>
+        </div>
+      </div>
+      <div class="food-item">
+        <img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pasta">
+        <span>Pasta - ₹120</span>
+        <div>
+          <button onclick="adjustQuantity('pasta', -1)">-</button>
+          <span id="pastaQuantity">0</span>
+          <button onclick="adjustQuantity('pasta', 1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div id="totalAmount">Total Amount: ₹0</div>
+    <button class="submit-btn" onclick="proceedToDelivery()">Proceed to Delivery</button>
+  </div>
+
+  <!-- Delivery Page -->
+  <div id="deliveryPage" class="container hidden">
     <h1>Delivery</h1>
     <p>Order fresh food online and have it delivered straight to your doorstep!</p>
-    
     <form id="deliveryForm">
       <div class="form-group">
         <label for="pickupLocation">Pickup Location:</label>
@@ -108,7 +225,6 @@
           <option value="Malleshwaram">Malleshwaram</option>
         </select>
       </div>
-      
       <div class="form-group">
         <label for="dropLocation">Drop Location:</label>
         <select id="dropLocation" name="dropLocation" required>
@@ -119,10 +235,12 @@
           <option value="Electronic City">Electronic City</option>
         </select>
       </div>
-      
+      <div id="orderSummary">
+        <h3>Order Summary</h3>
+        <p id="summaryDetails"></p>
+      </div>
       <button type="submit" class="submit-btn">Submit Order</button>
     </form>
-
     <div id="confirmationMessage" class="hidden">
       <h2>Thank you for your order!</h2>
       <p>Your food will be delivered soon.</p>
@@ -130,27 +248,84 @@
   </div>
 
   <script>
-    document.getElementById('deliveryForm').addEventListener('submit', function (e) {
-      e.preventDefault(); // Prevent form submission
+    // Prices in INR
+    const prices = {
+      burger: 150,
+      pizza: 200,
+      pasta: 120,
+    };
 
-      // Get form values
+    // Quantities
+    let quantities = {
+      burger: 0,
+      pizza: 0,
+      pasta: 0,
+    };
+
+    // Login Validation
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === 'Shbz' && password === '1234') {
+        document.getElementById('loginPage').classList.add('hidden');
+        document.getElementById('foodSelectionPage').classList.remove('hidden');
+      } else {
+        alert('Invalid username or password. Please try again.');
+      }
+    });
+
+    // Adjust Quantity
+    function adjustQuantity(item, change) {
+      quantities[item] += change;
+      if (quantities[item] < 0) quantities[item] = 0;
+      document.getElementById(`${item}Quantity`).textContent = quantities[item];
+      updateTotalAmount();
+    }
+
+    // Update Total Amount
+    function updateTotalAmount() {
+      let subtotal = 0;
+      for (const item in quantities) {
+        subtotal += quantities[item] * prices[item];
+      }
+      const tax = subtotal * 0.13; // 13% tax
+      const total = subtotal + tax;
+      document.getElementById('totalAmount').textContent = `Total Amount: ₹${total.toFixed(2)}`;
+    }
+
+    // Proceed to Delivery Page
+    function proceedToDelivery() {
+      document.getElementById('foodSelectionPage').classList.add('hidden');
+      document.getElementById('deliveryPage').classList.remove('hidden');
+
+      // Display Order Summary
+      let summary = '';
+      for (const item in quantities) {
+        if (quantities[item] > 0) {
+          summary += `${item.charAt(0).toUpperCase() + item.slice(1)}: ${quantities[item]} x ₹${prices[item]} = ₹${quantities[item] * prices[item]}<br>`;
+        }
+      }
+      const subtotal = Object.keys(quantities).reduce((acc, item) => acc + quantities[item] * prices[item], 0);
+      const tax = subtotal * 0.13;
+      const total = subtotal + tax;
+      summary += `<br>Subtotal: ₹${subtotal.toFixed(2)}<br>Tax (13%): ₹${tax.toFixed(2)}<br>Total: ₹${total.toFixed(2)}`;
+      document.getElementById('summaryDetails').innerHTML = summary;
+    }
+
+    // Delivery Form Submission
+    document.getElementById('deliveryForm').addEventListener('submit', function (e) {
+      e.preventDefault();
       const pickupLocation = document.getElementById('pickupLocation').value;
       const dropLocation = document.getElementById('dropLocation').value;
 
-      // Validate inputs
       if (!pickupLocation || !dropLocation) {
         alert('Please select both pickup and drop locations.');
         return;
       }
 
-      // Show confirmation message
       document.getElementById('confirmationMessage').classList.remove('hidden');
-
-      // Clear form fields
-      document.getElementById('pickupLocation').value = '';
-      document.getElementById('dropLocation').value = '';
-
-      // Hide confirmation message after 5 seconds
       setTimeout(() => {
         document.getElementById('confirmationMessage').classList.add('hidden');
       }, 5000);
